@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PoolManager : MonoBehaviour
 {
+    [Header("prefab list")]
+    [Tooltip("풀링하려는 오브젝트를 넣을 리스트. 게임매니저에서 PoolManager.Get(오브젝트 이름) 하면 가져올 수 있다.")]
     [SerializeField] private GameObject[] prefabs;
 
     private Dictionary<string, GameObject> prefabDictionary;
@@ -23,8 +25,6 @@ public class PoolManager : MonoBehaviour
         {
             pools[prefabs[i].name] = new List<GameObject>();
         }
-
-        StartCoroutine(TestSpawner());
     }
 
     // request object
@@ -56,16 +56,5 @@ public class PoolManager : MonoBehaviour
         requested = Instantiate(prefabDictionary[prefabName], this.transform);
         pool.Add(requested);
         return requested;
-    }
-
-
-    IEnumerator TestSpawner()
-    {
-
-        while (true)
-        {
-            this.Get("Test");
-            yield return new WaitForSeconds(1);
-        }
     }
 }
