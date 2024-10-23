@@ -12,13 +12,37 @@ public class Enemy : MonoBehaviour
     private float shield;
     bool isDie;
 
-    private NavMeshAgent navMeshAgent;
-    public Transform destination;
-
+    private NavMeshAgent agent;
+    [SerializeField] private Transform[] destinations;
+    [SerializeField] private int destinationIndex;
+     
     public void Start()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
+        GameObject[] destinationObjects = GameObject.FindGameObjectsWithTag("Destination");
+        destinations = new Transform[destinationObjects.Length];
 
-        navMeshAgent.destination = destination.position;
+        for (int i = 0; i < destinationObjects.Length; i++)
+        {
+            destinations[i] = destinationObjects[i].transform;
+        }
+
+        destinationIndex = 0;
+        agent = GetComponent<NavMeshAgent>();
+        agent.SetDestination(destinations[destinationIndex].position);
+    }
+    private void Update()
+    {
+        if(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 0.1)
+            MoveToNextPoint();
+    }
+
+    private void MoveToNextPoint()
+    {
+        if (destinationIndex >= destinations.Length - 1)
+            destinationIndex = 0;
+        else
+            ++destinationIndex;
+
+        agent.SetDestination(destinations[destinationIndex].position);
     }
 }
