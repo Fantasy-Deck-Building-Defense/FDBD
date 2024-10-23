@@ -15,4 +15,11 @@ public class DeckController : MonoBehaviour
     {
         
     }
+
+    // 유닛 선택 후 마우스 클릭이 되면 움직이는 함수
+
+
+
+    // 유닛이 가까운 적 캐릭터를 공격하는 함수
+  
 }
