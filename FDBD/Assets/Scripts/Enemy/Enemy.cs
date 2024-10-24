@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour
     }
     private void Update()
     {
-        if(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 0.1)
+        if(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
             MoveToNextPoint();
     }
 
