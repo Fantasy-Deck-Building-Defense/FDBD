@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit : MonoBehaviour
+public class UnitTest : MonoBehaviour
 {
     [SerializeField]
     public float rotatSpeed;
@@ -24,6 +24,8 @@ public class Unit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.DrawRay(transform.position, transform.forward * 16, Color.yellow);
+
         // 왼쪽 마우스 버튼을 눌렀을 때
         if (Input.GetMouseButtonDown(0))
         {
@@ -52,6 +54,42 @@ public class Unit : MonoBehaviour
         Move();
     }
 
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            Debug.Log(other.gameObject.name);
+
+            // 두 오브젝트 간의 방향 벡터 계산
+            Vector3 direction = other.transform.position - transform.position;
+            direction.y = 0;
+
+            // 방향 벡터를 기반으로 회전 값 생성 (Y축을 제외하고 싶으면 direction.y = 0; 추가)
+            Quaternion rotation = Quaternion.LookRotation(direction);
+
+            // 현재 오브젝트를 해당 방향으로 회전
+            transform.rotation = rotation;
+        }
+    }
+
+    public void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            Debug.Log(other.gameObject.name);
+
+            // 두 오브젝트 간의 방향 벡터 계산
+            Vector3 direction = other.transform.position - transform.position;
+            direction.y = 0;
+
+            // 방향 벡터를 기반으로 회전 값 생성 (Y축을 제외하고 싶으면 direction.y = 0; 추가)
+            Quaternion rotation = Quaternion.LookRotation(direction);
+
+            // 현재 오브젝트를 해당 방향으로 회전
+            transform.rotation = rotation;
+        }
+    }
+
     void Move()
     {
         if (move)
@@ -60,7 +98,7 @@ public class Unit : MonoBehaviour
             transform.position += dir.normalized * Time.deltaTime * moveSpeed;
 
             // 현재 방향에서 움직여야할 방향으로 부드럽게 회전
-            transform.rotation = Quaternion.Lerp(transform.rotation, lookTarget, rotatSpeed);
+            //transform.rotation = Quaternion.Lerp(transform.rotation, lookTarget, rotatSpeed);
 
             // 캐릭터의 위치와 목표 위치의 거리가 0.05f 보다 큰 동안만 이동
             move = (transform.position - destPos).magnitude > 0.05f;
