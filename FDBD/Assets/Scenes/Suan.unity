@@ -1319,7 +1319,7 @@ GameObject:
   - component: {fileID: 1498394603}
   - component: {fileID: 1498394602}
   m_Layer: 0
-  m_Name: floor (1)
+  m_Name: floor2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1334,8 +1334,8 @@ Transform:
   m_GameObject: {fileID: 1498394600}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 77.4, y: 291.91772, z: 81.322945}
-  m_LocalScale: {x: 7.6345234, y: 7.6345234, z: 7.6345234}
+  m_LocalPosition: {x: 51.1, y: 291.91772, z: 81.322945}
+  m_LocalScale: {x: 2.4903815, y: 7.6345234, z: 7.6345234}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1212541082}
@@ -1608,7 +1608,7 @@ Transform:
   m_GameObject: {fileID: 1976789859}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.1103046, y: 291.91772, z: 81.322945}
+  m_LocalPosition: {x: 0.5, y: 291.91772, z: 81.2}
   m_LocalScale: {x: 7.6345234, y: 7.6345234, z: 7.6345234}
   m_ConstrainProportionsScale: 0
   m_Children: []

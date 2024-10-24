@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     private float speed;
     private float armor;
     private float shield;
-    bool isDie;
+    bool isDie => hp <= 0;
 
     private NavMeshAgent agent;
     [SerializeField] private Transform[] destinations;
@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour
     }
     private void Update()
     {
-        if(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 0.1)
+        if(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
             MoveToNextPoint();
     }
 
@@ -44,5 +44,44 @@ public class Enemy : MonoBehaviour
             ++destinationIndex;
 
         agent.SetDestination(destinations[destinationIndex].position);
+    }
+
+    public void Attack(eAttackType type, float strength)
+    {
+        Attacked();
+
+        switch (type)
+        {
+            case eAttackType.NORMAL:
+                {
+
+                }
+                break;
+            case eAttackType.PHYSICS:
+                {
+
+                }
+                break;
+            case eAttackType.MAGIC:
+                {
+
+                }
+                break;
+            default:
+                break;
+        }
+
+        if (isDie)
+            Die();
+    }
+
+    private void Attacked()
+    {
+        
+    }
+
+    private void Die()
+    {
+        this.gameObject.SetActive(false);
     }
 }

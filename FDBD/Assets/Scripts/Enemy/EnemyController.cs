@@ -14,9 +14,15 @@ public class EnemyController : MonoBehaviour
     {
 
     }
+
     public void StartSpawnEnemies()
     {
         StartCoroutine(SpawnEnemies());
+    }
+
+    public void DestroyAllEnemies()
+    {
+
     }
 
     private IEnumerator SpawnEnemies()
