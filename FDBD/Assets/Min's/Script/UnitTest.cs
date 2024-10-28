@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class UnitTest : MonoBehaviour
 {
-    //[SerializeField]
-    //public float rotatSpeed;
+    [SerializeField]
+    public float rotatSpeed;
 
-    //[SerializeField]
-    //public float moveSpeed;
+    [SerializeField]
+    public float moveSpeed;
 
-    //Vector3 destPos;
-    //Vector3 dir;
-    //Quaternion lookTarget;
+    Vector3 destPos;
+    Vector3 dir;
+    Quaternion lookTarget;
 
-    //bool move = false;
+    bool move = false;
 
     private List<Collider> objectsInTrigger = new List<Collider>();
 
@@ -28,7 +28,32 @@ public class UnitTest : MonoBehaviour
     {
         Debug.DrawRay(transform.position, transform.forward * 16, Color.yellow);
 
-        //// 왼쪽 마우스 버튼을 눌렀을 때
+        if (objectsInTrigger.Count > 0)
+        {
+            RaycastHit[] hits;
+            hits = Physics.RaycastAll(transform.position, transform.forward, 16);
+
+            //if (Physics.Raycast(ray, out hit, 16f))
+            //{
+            //    Debug.Log(hit.transform.gameObject);
+            //    Debug.Log(hit.transform.gameObject.GetComponent<Enemy>());
+
+            //}
+
+            for (int i = 0; i < hits.Length; i++)
+            {
+                RaycastHit hit = hits[i];
+
+                if (hit.transform.gameObject.tag == "Enemy")
+                {
+                    hit.transform.gameObject.GetComponent<Enemy>().Attack(eAttackType.NORMAL, 100f);
+                }
+            }
+        }
+
+        // selected enemy -> 
+
+        // 왼쪽 마우스 버튼을 눌렀을 때
         //if (Input.GetMouseButtonDown(0))
         //{
         //    RaycastHit hit;
@@ -128,23 +153,21 @@ public class UnitTest : MonoBehaviour
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
             }
-
-            Debug.Log(closestObject.gameObject.name);
         }
     }
 
     void Move()
     {
-        //if (move)
-        //{
-        //    // 이동할 방향으로 Time.deltaTime * moveSpeed 의 속도로 움직임.
-        //    transform.position += dir.normalized * Time.deltaTime * moveSpeed;
+        if (move)
+        {
+            // 이동할 방향으로 Time.deltaTime * moveSpeed 의 속도로 움직임.
+            transform.position += dir.normalized * Time.deltaTime * moveSpeed;
 
-        //    // 현재 방향에서 움직여야할 방향으로 부드럽게 회전
-        //    //transform.rotation = Quaternion.Lerp(transform.rotation, lookTarget, rotatSpeed);
+            // 현재 방향에서 움직여야할 방향으로 부드럽게 회전
+            //transform.rotation = Quaternion.Lerp(transform.rotation, lookTarget, rotatSpeed);
 
-        //    // 캐릭터의 위치와 목표 위치의 거리가 0.05f 보다 큰 동안만 이동
-        //    move = (transform.position - destPos).magnitude > 0.05f;
-        //}
+            // 캐릭터의 위치와 목표 위치의 거리가 0.05f 보다 큰 동안만 이동
+            move = (transform.position - destPos).magnitude > 0.05f;
+        }
     }
 }
