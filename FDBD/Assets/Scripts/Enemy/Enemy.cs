@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     [Header("Enemy info")]
-    private float hp;
+    private float hp = 100;
     private float speed;
     private float armor;
     private float shield;
@@ -15,7 +15,7 @@ public class Enemy : MonoBehaviour
     private NavMeshAgent agent;
     [SerializeField] private Transform[] destinations;
     [SerializeField] private int destinationIndex;
-     
+
     public void Start()
     {
         GameObject[] destinationObjects = GameObject.FindGameObjectsWithTag("Destination");
@@ -30,9 +30,29 @@ public class Enemy : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.SetDestination(destinations[destinationIndex].position);
     }
+
+    public void ResetState()
+    {
+        hp = 100;
+        shield = 100;
+        armor = 100;
+
+        destinationIndex = 0;
+        //agent.ResetPath();
+        agent.SetDestination(destinations[destinationIndex].position);
+    }
+
+    private void OnEnable()
+    {
+        if (agent != null)
+        {
+            ResetState();
+        }
+    }
+
     private void Update()
     {
-        if(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
             MoveToNextPoint();
     }
 
@@ -54,7 +74,7 @@ public class Enemy : MonoBehaviour
         {
             case eAttackType.NORMAL:
                 {
-
+                    hp -= strength;
                 }
                 break;
             case eAttackType.PHYSICS:
@@ -77,7 +97,7 @@ public class Enemy : MonoBehaviour
 
     private void Attacked()
     {
-        
+        // attacked effect
     }
 
     private void Die()

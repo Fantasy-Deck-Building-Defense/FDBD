@@ -46,7 +46,8 @@ public class UnitTest : MonoBehaviour
 
                 if (hit.transform.gameObject.tag == "Enemy")
                 {
-                    hit.transform.gameObject.GetComponent<Enemy>().Attack(eAttackType.NORMAL, 100f);
+                    hit.transform.gameObject.GetComponent<Enemy>().Attack(eAttackType.NORMAL, 50);
+                    objectsInTrigger.Remove(hit.transform.GetComponent<Collider>());
                 }
             }
         }
