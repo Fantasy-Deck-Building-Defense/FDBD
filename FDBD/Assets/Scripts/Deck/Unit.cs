@@ -19,14 +19,20 @@ public class Unit : MonoBehaviour
 
     // 유닛 공격 타입
     eAttackType attackType;
+    float strength;
+
 
     private List<Collider> Enemys = new List<Collider>();
 
     // 공통 함수
     //void Move(Vector3 pos)
 
+    void Update()
+    {
+        //RaycastHit hit;
+    }
 
-    public void OnTriggerEnter(Collider other)
+        public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {

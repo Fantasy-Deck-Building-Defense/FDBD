@@ -372,7 +372,6 @@ GameObject:
   - component: {fileID: 230003177}
   - component: {fileID: 230003180}
   - component: {fileID: 230003179}
-  - component: {fileID: 230003178}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -395,27 +394,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 189208458}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &230003178
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 230003176}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &230003179
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -474,6 +452,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 285351197443138607, guid: d7111e42cae5f9d4c964a1641e592e74,
+        type: 3}
+      propertyPath: spawnCount
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 285351197443138607, guid: d7111e42cae5f9d4c964a1641e592e74,
+        type: 3}
+      propertyPath: spawnSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 285351197443138607, guid: d7111e42cae5f9d4c964a1641e592e74,
         type: 3}
       propertyPath: EnemySpawnPos
@@ -694,7 +682,7 @@ Transform:
   m_GameObject: {fileID: 818446572}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 16.87, z: -1.61}
+  m_LocalPosition: {x: 0, y: 56.27, z: -1.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
