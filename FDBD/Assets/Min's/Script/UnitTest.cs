@@ -28,29 +28,33 @@ public class UnitTest : MonoBehaviour
     {
         Debug.DrawRay(transform.position, transform.forward * 16, Color.yellow);
 
-        if (objectsInTrigger.Count > 0)
-        {
-            RaycastHit[] hits;
-            hits = Physics.RaycastAll(transform.position, transform.forward, 16);
+        //if (objectsInTrigger.Count > 0)
+        //{
+        //    RaycastHit[] hits;
+        //    hits = Physics.RaycastAll(transform.position, transform.forward, 16);
 
-            //if (Physics.Raycast(ray, out hit, 16f))
-            //{
-            //    Debug.Log(hit.transform.gameObject);
-            //    Debug.Log(hit.transform.gameObject.GetComponent<Enemy>());
+        //    //if (Physics.Raycast(ray, out hit, 16f))
+        //    //{
+        //    //    Debug.Log(hit.transform.gameObject);
+        //    //    Debug.Log(hit.transform.gameObject.GetComponent<Enemy>());
 
-            //}
+        //    //}
 
-            for (int i = 0; i < hits.Length; i++)
-            {
-                RaycastHit hit = hits[i];
+        //    for (int i = 0; i < hits.Length; i++)
+        //    {
+        //        RaycastHit hit = hits[i];
 
-                if (hit.transform.gameObject.tag == "Enemy")
-                {
-                    hit.transform.gameObject.GetComponent<Enemy>().Attack(eAttackType.NORMAL, 50);
-                    objectsInTrigger.Remove(hit.transform.GetComponent<Collider>());
-                }
-            }
-        }
+        //        if (hit.transform.gameObject.tag == "Enemy")
+        //        {
+
+        //            //if (hit.transform.gameObject.activeSelf)
+        //            //{
+        //            //    return;
+        //            //}
+        //            objectsInTrigger.Remove(hit.transform.GetComponent<Collider>());
+        //        }
+        //    }
+        //}
 
         // selected enemy -> 
 
@@ -153,6 +157,9 @@ public class UnitTest : MonoBehaviour
 
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+
+                other.GetComponent<Enemy>().Attack(eAttackType.NORMAL, 2);
+                if (!other.gameObject.activeSelf) objectsInTrigger.Remove(other);
             }
         }
     }
