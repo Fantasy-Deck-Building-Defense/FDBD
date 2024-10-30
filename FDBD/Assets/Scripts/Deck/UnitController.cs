@@ -19,11 +19,18 @@ public class UnitController : MonoBehaviour
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity) && hit.transform.CompareTag("Unit"))
                 {
                     selectedUnit = hit.collider.gameObject;
+                    selectedUnit.GetComponent<Renderer>().material.color = Color.red;
                 }
             }
             else
             {
-                if(Physics.Raycast(ray, out hit, Mathf.Infinity))
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity) && hit.transform.CompareTag("Unit"))
+                {
+                    selectedUnit.GetComponent<Renderer>().material.color = Color.blue;
+                    selectedUnit = hit.collider.gameObject;
+                    selectedUnit.GetComponent<Renderer>().material.color = Color.red;
+                }
+                else if (Physics.Raycast(ray, out hit, Mathf.Infinity))
                 {
                     selectedUnit.GetComponent<NavMeshAgent>().SetDestination(hit.point);
                 }
