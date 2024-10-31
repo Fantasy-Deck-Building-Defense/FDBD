@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class UnitTest : MonoBehaviour
 {
-    [SerializeField]
-    public float rotatSpeed;
+    //[SerializeField]
+    //public float moveSpeed;
 
-    [SerializeField]
-    public float moveSpeed;
+    //Vector3 destPos;
+    //Vector3 dir;
+    //Quaternion lookTarget;
 
-    Vector3 destPos;
-    Vector3 dir;
-    Quaternion lookTarget;
+    //bool move = false;
 
-    bool move = false;
-
-    private List<Collider> objectsInTrigger = new List<Collider>();
+    protected float strength = 2.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -26,8 +23,6 @@ public class UnitTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.DrawRay(transform.position, transform.forward * 16, Color.yellow);
-
         //if (objectsInTrigger.Count > 0)
         //{
         //    RaycastHit[] hits;
@@ -86,96 +81,96 @@ public class UnitTest : MonoBehaviour
         //Move();
     }
 
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
-        {
-            objectsInTrigger.Add(other);
+    //public void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.CompareTag("Enemy"))
+    //    {
+    //        objectsInTrigger.Add(other);
 
-            //Debug.Log(other.gameObject.name);
+    //        //Debug.Log(other.gameObject.name);
 
-            //// 두 오브젝트 간의 방향 벡터 계산
-            //Vector3 direction = other.transform.position - transform.position;
-            //direction.y = 0;
+    //        //// 두 오브젝트 간의 방향 벡터 계산
+    //        //Vector3 direction = other.transform.position - transform.position;
+    //        //direction.y = 0;
 
-            //// 방향 벡터를 기반으로 회전 값 생성 (Y축을 제외하고 싶으면 direction.y = 0; 추가)
-            //Quaternion rotation = Quaternion.LookRotation(direction);
+    //        //// 방향 벡터를 기반으로 회전 값 생성 (Y축을 제외하고 싶으면 direction.y = 0; 추가)
+    //        //Quaternion rotation = Quaternion.LookRotation(direction);
 
-            //// 현재 오브젝트를 해당 방향으로 회전
-            //transform.rotation = rotation;
-        }
-    }
+    //        //// 현재 오브젝트를 해당 방향으로 회전
+    //        //transform.rotation = rotation;
+    //    }
+    //}
 
-    public void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
-        {
-            objectsInTrigger.Remove(other);
-        }
-    }
+    //public void OnTriggerExit(Collider other)
+    //{
+    //    if (other.CompareTag("Enemy"))
+    //    {
+    //        objectsInTrigger.Remove(other);
+    //    }
+    //}
 
-    public void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
-        {
-            //Debug.Log(other.gameObject.name);
+    //public void OnTriggerStay(Collider other)
+    //{
+    //    if (other.CompareTag("Enemy"))
+    //    {
+    //        //Debug.Log(other.gameObject.name);
 
-            //// 두 오브젝트 간의 방향 벡터 계산
-            //Vector3 direction = other.transform.position - transform.position;
-            //direction.y = 0;
+    //        //// 두 오브젝트 간의 방향 벡터 계산
+    //        //Vector3 direction = other.transform.position - transform.position;
+    //        //direction.y = 0;
 
-            //// 방향 벡터를 기반으로 회전 값 생성 (Y축을 제외하고 싶으면 direction.y = 0; 추가)
-            //Quaternion rotation = Quaternion.LookRotation(direction);
+    //        //// 방향 벡터를 기반으로 회전 값 생성 (Y축을 제외하고 싶으면 direction.y = 0; 추가)
+    //        //Quaternion rotation = Quaternion.LookRotation(direction);
 
-            //// 현재 오브젝트를 해당 방향으로 회전
-            //transform.rotation = rotation;
+    //        //// 현재 오브젝트를 해당 방향으로 회전
+    //        //transform.rotation = rotation;
 
-            Collider closestObject = null;
-            float closestDistance = Mathf.Infinity;
+    //        Collider closestObject = null;
+    //        float closestDistance = Mathf.Infinity;
 
-            // 현재 오브젝트의 위치
-            Vector3 currentPosition = transform.position;
+    //        // 현재 오브젝트의 위치
+    //        Vector3 currentPosition = transform.position;
 
-            foreach (Collider obj in objectsInTrigger)
-            {
-                // 각 오브젝트와의 거리 계산
-                float distance = Vector3.Distance(currentPosition, obj.transform.position);
+    //        foreach (Collider obj in objectsInTrigger)
+    //        {
+    //            // 각 오브젝트와의 거리 계산
+    //            float distance = Vector3.Distance(currentPosition, obj.transform.position);
 
-                // 가장 가까운 오브젝트를 업데이트
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    closestObject = obj;
-                }
-            }
+    //            // 가장 가까운 오브젝트를 업데이트
+    //            if (distance < closestDistance)
+    //            {
+    //                closestDistance = distance;
+    //                closestObject = obj;
+    //            }
+    //        }
 
-            // 가장 가까운 오브젝트가 있다면 해당 방향으로 회전
-            if (closestObject != null)
-            {
-                Vector3 direction = closestObject.transform.position - currentPosition;
-                direction.y = 0; // Y축은 고정하고 수평 회전만 적용
+    //        // 가장 가까운 오브젝트가 있다면 해당 방향으로 회전
+    //        if (closestObject != null)
+    //        {
+    //            Vector3 direction = closestObject.transform.position - currentPosition;
+    //            direction.y = 0; // Y축은 고정하고 수평 회전만 적용
 
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+    //            Quaternion targetRotation = Quaternion.LookRotation(direction);
+    //            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
 
-                other.GetComponent<Enemy>().Attack(eAttackType.NORMAL, 2);
-                if (!other.gameObject.activeSelf) objectsInTrigger.Remove(other);
-            }
-        }
-    }
+    //            other.GetComponent<Enemy>().Attack(eAttackType.NORMAL, 2);
+    //            if (!other.gameObject.activeSelf) objectsInTrigger.Remove(other);
+    //        }
+    //    }
+    //}
 
-    void Move()
-    {
-        if (move)
-        {
-            // 이동할 방향으로 Time.deltaTime * moveSpeed 의 속도로 움직임.
-            transform.position += dir.normalized * Time.deltaTime * moveSpeed;
+    //void Move()
+    //{
+    //    if (move)
+    //    {
+    //        // 이동할 방향으로 Time.deltaTime * moveSpeed 의 속도로 움직임.
+    //        transform.position += dir.normalized * Time.deltaTime * moveSpeed;
 
-            // 현재 방향에서 움직여야할 방향으로 부드럽게 회전
-            //transform.rotation = Quaternion.Lerp(transform.rotation, lookTarget, rotatSpeed);
+    //        // 현재 방향에서 움직여야할 방향으로 부드럽게 회전
+    //        //transform.rotation = Quaternion.Lerp(transform.rotation, lookTarget, rotatSpeed);
 
-            // 캐릭터의 위치와 목표 위치의 거리가 0.05f 보다 큰 동안만 이동
-            move = (transform.position - destPos).magnitude > 0.05f;
-        }
-    }
+    //        // 캐릭터의 위치와 목표 위치의 거리가 0.05f 보다 큰 동안만 이동
+    //        move = (transform.position - destPos).magnitude > 0.05f;
+    //    }
+    //}
 }
