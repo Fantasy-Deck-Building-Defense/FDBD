@@ -20,6 +20,7 @@ public class UnitController : MonoBehaviour
                 {
                     selectedUnit = hit.collider.gameObject;
                     selectedUnit.GetComponent<Renderer>().material.color = Color.red;
+                    selectedUnit.GetComponent<NavMeshAgent>().avoidancePriority = 80;
                 }
             }
             else
@@ -27,7 +28,10 @@ public class UnitController : MonoBehaviour
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity) && hit.transform.CompareTag("Unit"))
                 {
                     selectedUnit.GetComponent<Renderer>().material.color = Color.blue;
+                    selectedUnit.GetComponent<NavMeshAgent>().avoidancePriority = 50;
+
                     selectedUnit = hit.collider.gameObject;
+                    selectedUnit.GetComponent<NavMeshAgent>().avoidancePriority = 80;
                     selectedUnit.GetComponent<Renderer>().material.color = Color.red;
                 }
                 else if (Physics.Raycast(ray, out hit, Mathf.Infinity))

@@ -1,26 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class UnityRange : MonoBehaviour
+public class UnitRange : MonoBehaviour
 {
-    [SerializeField]
-    public float rotatSpeed;
+    [SerializeField] public float rotatSpeed;
+
+    private NavMeshAgent agent;
+    [SerializeField] private bool isMove => agent.velocity.sqrMagnitude > 0;
 
     private List<Collider> Enemys = new List<Collider>();
 
     private Transform pTransform;   // 부모 위치
 
     // Start is called before the first frame update
+    private void Awake()
+    {
+        agent = GetComponentInParent<NavMeshAgent>();
+    }
     void Start()
     {
         pTransform = transform.parent;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void OnTriggerEnter(Collider other)
@@ -41,6 +42,9 @@ public class UnityRange : MonoBehaviour
 
     public void OnTriggerStay(Collider other)
     {
+        if (isMove) 
+            return;
+
         if (other.CompareTag("Enemy"))
         {
             Collider closestObject = null;
