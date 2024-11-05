@@ -8,7 +8,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Transform EnemySpawnPos;
     [SerializeField] private float spawnSpeed;
     [SerializeField] private int spawnCount;
-    [SerializeField] private int currentCount;
+    public int currentCount { get; set; }
 
     public void UpgradeSpawnPattern()
     {

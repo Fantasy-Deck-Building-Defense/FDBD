@@ -6,6 +6,12 @@ using UnityEngine.AI;
 public class UnitController : MonoBehaviour
 {
     [SerializeField] private GameObject selectedUnit;
+    public int all_killCount;
+    public int thisRound_killCount;
+    public void Awake()
+    {
+        thisRound_killCount = 0;
+    }
 
     public void Update()
     {
@@ -40,5 +46,11 @@ public class UnitController : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SetNextRound()
+    {
+        all_killCount = thisRound_killCount;
+        thisRound_killCount = 0;
     }
 }

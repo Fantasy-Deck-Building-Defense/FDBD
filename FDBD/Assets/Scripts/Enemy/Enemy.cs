@@ -102,6 +102,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        GameManager.Instance.unitController.thisRound_killCount++;
         this.gameObject.SetActive(false);
     }
 }
