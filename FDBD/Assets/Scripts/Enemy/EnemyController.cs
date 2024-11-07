@@ -8,6 +8,10 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Transform EnemySpawnPos;
     [SerializeField] private float spawnSpeed;
     [SerializeField] private int spawnCount;
+
+    [Header("Enemy info for level")]
+    [SerializeField] private List<EnemyData> enemyDatas;
+
     public int currentCount { get; set; }
 
     public void UpgradeSpawnPattern()
@@ -36,6 +40,11 @@ public class EnemyController : MonoBehaviour
         }
 
         yield break;
+    }
+
+    public EnemyData GetCurrentEnemyData()
+    {
+        return enemyDatas[GameManager.Instance.level];
     }
 
 }

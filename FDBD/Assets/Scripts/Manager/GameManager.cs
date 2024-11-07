@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 
 
     [Header("Round info")]
+    public int level;
     public float roundTimer;
     public bool isRoundStart;
 
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
+        level = 0;
         roundTimer = 60f;
     }
     private void Update()
@@ -46,12 +48,12 @@ public class GameManager : MonoBehaviour
     private void UpdateRound()
     {
         roundTimer -= Time.deltaTime;
-    }
+    } 
     private void EndRound()
     {
         // round fin
         isRoundStart = false;
-        roundTimer = 0;
+        roundTimer = 60;
 
         // calculate count
         unitController.SetNextRound();

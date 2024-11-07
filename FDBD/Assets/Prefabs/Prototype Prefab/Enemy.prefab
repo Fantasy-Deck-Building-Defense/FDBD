@@ -121,6 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 950fd85270800434dbb64f9f4eca3ac8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0
+  eDeffenseOrder: 010000000200000000000000
   destinations:
   - {fileID: 0}
   - {fileID: 0}
