@@ -393,6 +393,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5148818244105122507, guid: 660569476654d4e449ddccee83f4a2e1,
         type: 3}
+      propertyPath: spawnCount
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5148818244105122507, guid: 660569476654d4e449ddccee83f4a2e1,
+        type: 3}
       propertyPath: EnemySpawnPos
       value: 
       objectReference: {fileID: 308715224}
@@ -2484,6 +2489,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Up Card (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7323257320493339954, guid: cd66d37d98c69de478bb70f8d63ff4d1,
+        type: 3}
+      propertyPath: m_Text
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
