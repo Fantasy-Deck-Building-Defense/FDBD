@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
 {
     [Header("Enemy info")]
     [SerializeField] private float speed;
-    [SerializeField] private List<DefenseType> defenseOrder = new List<DefenseType>();
+    public List<DefenseType> defenseOrder = new List<DefenseType>();
     private bool isDie => defenseOrder.Count == 0;
 
     [Header("Enemy Route")]

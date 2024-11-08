@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
@@ -12,11 +14,23 @@ public class EnemyController : MonoBehaviour
     [Header("Enemy info for level")]
     [SerializeField] private List<EnemyData> enemyDatas;
 
+    [Header("Selected Enemy info")]
+    [SerializeField] private DefensePower enemyPower_UI;
+    public Enemy selectedEnemy { get; private set; }
     public int currentCount { get; set; }
-
-    public void UpgradeSpawnPattern()
+    private void Update()
     {
+        if(Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
 
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity) && hit.transform.CompareTag("Enemy"))
+            {
+                selectedEnemy = hit.collider.gameObject.GetComponent<Enemy>();
+                enemyPower_UI.SetEnemyNow(selectedEnemy);
+            }
+        }
     }
 
     public void StartSpawnEnemies()
