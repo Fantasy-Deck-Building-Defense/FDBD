@@ -6,18 +6,21 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     [Header("Enemy info")]
-    private float hp = 100;
-    private float speed;
-    private float armor;
-    private float shield;
-    bool isDie => hp <= 0;
+    [SerializeField] private float speed;
+    public List<DefenseType> defenseOrder = new List<DefenseType>();
+    private bool isDie => defenseOrder.Count == 0;
 
+    [Header("Enemy Route")]
     private NavMeshAgent agent;
     [SerializeField] private Transform[] destinations;
     [SerializeField] private int destinationIndex;
 
     public void Start()
     {
+        // set enemy info
+        SetEnemyData();
+
+        // destination
         GameObject[] destinationObjects = GameObject.FindGameObjectsWithTag("Destination");
         destinations = new Transform[destinationObjects.Length];
 
@@ -31,14 +34,41 @@ public class Enemy : MonoBehaviour
         agent.SetDestination(destinations[destinationIndex].position);
     }
 
+    private void SetEnemyData()
+    {
+        EnemyData current = GameManager.Instance.enemyController.GetCurrentEnemyData();
+        speed = current.speed;
+
+        for (int i = 0; i < current.defenseOrder.Length; ++i)
+        {
+            switch (current.defenseOrder[i])
+            {
+                case eDefenseType.ARMOR:
+                    {
+                        defenseOrder.Add(new Armor(current.armor));
+                    }
+                    break;
+                case eDefenseType.SHIELD:
+                    {
+                        defenseOrder.Add(new Shield(current.shield));
+                    }
+                    break;
+                case eDefenseType.HEALTH:
+                    {
+                        defenseOrder.Add(new Health(current.health));
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
     public void ResetState()
     {
-        hp = 100;
-        shield = 100;
-        armor = 100;
+        SetEnemyData();
 
         destinationIndex = 0;
-        //agent.ResetPath();
         agent.SetDestination(destinations[destinationIndex].position);
     }
 
@@ -70,25 +100,18 @@ public class Enemy : MonoBehaviour
     {
         Attacked();
 
-        switch (type)
+        while (strength > 0)
         {
-            case eAttackType.NORMAL:
-                {
-                    hp -= strength;
-                }
-                break;
-            case eAttackType.PHYSICS:
-                {
+            // 우선 방어력 가져오기
+            var defense = defenseOrder[0];
 
-                }
-                break;
-            case eAttackType.MAGIC:
-                {
+            // 방어
+            strength = defense.Attacked(type, strength);
+            Debug.Log("attacked");
 
-                }
-                break;
-            default:
-                break;
+            // 해당 방어력이 다 떨어지면 리스트에서 제거
+            if (defense.amount <= 0)
+                defenseOrder.RemoveAt(0);
         }
 
         if (isDie)
@@ -102,6 +125,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        GameManager.Instance.unitController.thisRound_killCount++;
         this.gameObject.SetActive(false);
     }
 }
