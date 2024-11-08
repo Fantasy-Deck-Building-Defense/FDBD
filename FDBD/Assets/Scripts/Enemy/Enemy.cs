@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     [Header("Enemy info")]
     [SerializeField] private float speed;
     public List<DefenseType> defenseOrder = new List<DefenseType>();
-    private bool isDie => defenseOrder.Count == 0;
+    public bool isDie => defenseOrder.Count == 0;
 
     [Header("Enemy Route")]
     private NavMeshAgent agent;
