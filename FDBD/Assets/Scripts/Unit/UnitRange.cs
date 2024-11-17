@@ -42,7 +42,7 @@ public class UnitRange : MonoBehaviour
 
     public void OnTriggerStay(Collider other)
     {
-        if (isMove) 
+        if (isMove)
             return;
 
         if (other.CompareTag("Enemy"))
@@ -75,8 +75,8 @@ public class UnitRange : MonoBehaviour
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
                 pTransform.rotation = Quaternion.Slerp(pTransform.rotation, targetRotation, Time.deltaTime * 5f);
 
-                other.GetComponent<Enemy>().Attack(eAttackType.NORMAL, 2);
-                if (!other.gameObject.activeSelf) Enemys.Remove(other);
+                bool isDead = pTransform.GetComponent<Unit>().EnemyAttack(other);
+                if (isDead) Enemys.Remove(other);
             }
         }
     }

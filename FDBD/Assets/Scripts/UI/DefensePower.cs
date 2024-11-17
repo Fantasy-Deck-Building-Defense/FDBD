@@ -41,6 +41,9 @@ public class DefensePower : MonoBehaviour
         if (enemy == null)
             return;
 
+        if(enemy.isDie)
+            UI.SetActive(false);
+
         foreach (var power in enemy.defenseOrder)
         {
             switch(power.type)
