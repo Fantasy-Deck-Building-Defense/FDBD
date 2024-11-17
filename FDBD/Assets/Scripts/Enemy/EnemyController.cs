@@ -10,6 +10,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Transform EnemySpawnPos;
     [SerializeField] private float spawnSpeed;
     [SerializeField] private int spawnCount;
+    [SerializeField] private int thisRound_count;
+    private List<GameObject> enemyList = new List<GameObject>();
 
     [Header("Enemy info for level")]
     [SerializeField] private List<EnemyData> enemyDatas;
@@ -17,7 +19,8 @@ public class EnemyController : MonoBehaviour
     [Header("Selected Enemy info")]
     [SerializeField] private DefensePower enemyPower_UI;
     public Enemy selectedEnemy { get; private set; }
-    public int currentCount { get; set; }
+    public int all_count { get; set; }
+
     private void Update()
     {
         if(Input.GetMouseButtonDown(0))
@@ -35,6 +38,7 @@ public class EnemyController : MonoBehaviour
 
     public void StartSpawnEnemies()
     {
+        all_count += 50;
         StartCoroutine(SpawnEnemies());
     }
 
@@ -45,12 +49,13 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator SpawnEnemies()
     {
-        while (spawnCount > currentCount)
+        while (spawnCount > thisRound_count)
         {
             yield return new WaitForSeconds(spawnSpeed);
             var enemy = GameManager.Instance.poolManager.Get("Enemy");
             enemy.transform.position = EnemySpawnPos.position;
-            ++currentCount;
+            enemyList.Add(enemy);
+            ++thisRound_count;
         }
 
         yield break;
@@ -61,4 +66,13 @@ public class EnemyController : MonoBehaviour
         return enemyDatas[GameManager.Instance.level];
     }
 
+    public void SetNextRound()
+    {
+        thisRound_count = 0;
+        spawnSpeed = enemyDatas[GameManager.Instance.level].spawnSpeed;
+    }
+    public void EndGame()
+    {
+        thisRound_count = 0;
+    }
 }

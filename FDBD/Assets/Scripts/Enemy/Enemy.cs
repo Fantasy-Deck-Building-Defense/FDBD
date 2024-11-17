@@ -11,9 +11,9 @@ public class Enemy : MonoBehaviour
     public bool isDie => defenseOrder.Count == 0;
 
     [Header("Enemy Route")]
-    private NavMeshAgent agent;
     [SerializeField] private Transform[] destinations;
     [SerializeField] private int destinationIndex;
+    public NavMeshAgent agent;
 
     public void Start()
     {
@@ -37,7 +37,7 @@ public class Enemy : MonoBehaviour
     private void SetEnemyData()
     {
         EnemyData current = GameManager.Instance.enemyController.GetCurrentEnemyData();
-        speed = current.speed;
+        speed = current.enemySpeed;
 
         for (int i = 0; i < current.defenseOrder.Length; ++i)
         {
@@ -82,6 +82,14 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
+        if(!GameManager.Instance.isRoundStart)
+            agent.isStopped = true;
+        else
+            agent.isStopped = false;
+
+        if(!GameManager.Instance.isGameStart)
+            gameObject.SetActive(false);
+
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
             MoveToNextPoint();
     }
@@ -102,6 +110,12 @@ public class Enemy : MonoBehaviour
 
         while (strength > 0)
         {
+            if (isDie)
+            {
+                Die();
+                break;
+            }
+
             // 우선 방어력 가져오기
             var defense = defenseOrder[0];
 
@@ -114,8 +128,8 @@ public class Enemy : MonoBehaviour
                 defenseOrder.RemoveAt(0);
         }
 
-        if (isDie)
-            Die();
+        //if (isDie)
+        //    Die();
     }
 
     private void Attacked()
@@ -125,7 +139,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        GameManager.Instance.unitController.thisRound_killCount++;
+        GameManager.Instance.enemyController.all_count--;
         this.gameObject.SetActive(false);
     }
 }

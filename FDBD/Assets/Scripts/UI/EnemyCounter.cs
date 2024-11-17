@@ -15,7 +15,7 @@ public class EnemyCounter : MonoBehaviour
     {
         if (GameManager.Instance.isRoundStart)
         {
-            countText.text = string.Format("{0}", 50 - GameManager.Instance.unitController.thisRound_killCount);
+            countText.text = string.Format("{0}", GameManager.Instance.enemyController.all_count);
         }
     }
 }
