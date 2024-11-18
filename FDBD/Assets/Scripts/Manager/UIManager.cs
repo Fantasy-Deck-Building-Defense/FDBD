@@ -1,18 +1,71 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine.UI;
 using UnityEngine;
+
+// bgi - back ground image
+// btn - button
+// txt - text
 
 public class UIManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [Header("game init ui")]
+    [SerializeField] private Image lobby_bgi;   
+
+    [Header("round ui")]
+    [SerializeField] private TextMeshProUGUI timer_txt;
+    [SerializeField] private TextMeshProUGUI emenyCount_txt;
+    [SerializeField] private TextMeshProUGUI gameProcess_txt;
+
+    [Header("game over ui")]
+    [SerializeField] private Image Fade_bgi;
+    [SerializeField] private Button Restart_btn;
+
+    private void Awake()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ProgramInit()
+    { 
+        
+    }
+
+    public void GameInit()
+    {
+        Fade_bgi.gameObject.SetActive(true);
+        Restart_btn.gameObject.SetActive(true);
+    }
+    public void RoundInit()
+    {
+        Fade_bgi.gameObject.SetActive(false);
+        Restart_btn.gameObject.SetActive(false);
+
+        timer_txt.gameObject.SetActive(true);
+        emenyCount_txt.gameObject.SetActive(true);
+        gameProcess_txt.gameObject.SetActive(true);
+    }
+
+    public void UpdateEnemyCount(int count)
+    {
+        emenyCount_txt.text = count.ToString();
+    }
+
+    public void UpdateTimer(float time)
+    {
+        timer_txt.text = string.Format("{0:N0}", time);
+    }
+
+    public void RoundEnd()
     {
         
     }
+
+    public void GameEnd()
+    {
+        Fade_bgi.gameObject.SetActive(true);
+        Restart_btn.gameObject.SetActive(true);
+    }
+    
 }

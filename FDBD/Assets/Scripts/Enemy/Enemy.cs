@@ -82,13 +82,10 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if(!GameManager.Instance.isRoundStart)
+        if(!GameManager.Instance.isRoundStart || !GameManager.Instance.isGameStart)
             agent.isStopped = true;
         else
             agent.isStopped = false;
-
-        if(!GameManager.Instance.isGameStart)
-            gameObject.SetActive(false);
 
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
             MoveToNextPoint();

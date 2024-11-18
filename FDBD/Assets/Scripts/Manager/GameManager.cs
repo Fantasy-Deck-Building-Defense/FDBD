@@ -11,20 +11,60 @@ public class GameManager : MonoBehaviour
 
     [Header("Managers")]
     public PoolManager poolManager;
+    public UIManager UIManager;
     public EnemyController enemyController;
     public UnitController unitController;
 
 
     [Header("Round info")]
     public int level;
-    public float roundTimer;
-    public bool isGameStart;
-    public bool isRoundStart;
+    [SerializeField] private float _roundTimer;
+    [SerializeField] private bool _isGameStart;
+    [SerializeField] private bool _isRoundStart;
+
+    public float roundTimer
+    {
+        get => _roundTimer;
+        set
+        {
+            if(_roundTimer != value)
+            {
+                _roundTimer = value;
+                checkRoundTime?.Invoke(_roundTimer);
+            }
+        }
+    }
+    public bool isGameStart
+    {
+        get => _isGameStart;
+        set
+        {
+            if(_isGameStart != value)
+            {
+                _isGameStart = value;
+                checkGameStart?.Invoke(_isGameStart);
+            }
+        }
+    }
+    public bool isRoundStart
+    {
+        get => _isRoundStart;
+        set
+        {
+            if (_isRoundStart != value)
+            {
+                _isRoundStart = value;
+                checkRoundStart?.Invoke(_isRoundStart);
+            }
+        }
+    }
+
+    public event System.Action<bool> checkGameStart;
+    public event System.Action<bool> checkRoundStart;
+    public event System.Action<float> checkRoundTime;
 
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI gameProcess;
-    [SerializeField] private Image FadeImg;
-    [SerializeField] private Button button;
 
     private void Awake()
     {
@@ -54,8 +94,6 @@ public class GameManager : MonoBehaviour
 
     private void InitGame()
     {
-        SetEndGameUI(false);
-
         // 처음 게임을 시작할 때
         level = 0;
         isGameStart = true;
@@ -107,7 +145,6 @@ public class GameManager : MonoBehaviour
 
         isRoundStart = false;
         isGameStart = false;
-        SetEndGameUI(true);
         enemyController.EndGame();
     }
 
@@ -126,10 +163,5 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         InitGame();
-    }
-    private void SetEndGameUI(bool isActive)
-    {
-        FadeImg.gameObject.SetActive(isActive);
-        button.gameObject.SetActive(isActive);
     }
 }

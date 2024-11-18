@@ -19,7 +19,21 @@ public class EnemyController : MonoBehaviour
     [Header("Selected Enemy info")]
     [SerializeField] private DefensePower enemyPower_UI;
     public Enemy selectedEnemy { get; private set; }
-    public int all_count { get; set; }
+
+    public event System.Action<int> OnEnemyCountChanged;
+    private int _AllCount;
+    public int all_count 
+    { 
+        get => _AllCount;
+        set
+        {
+            if (_AllCount != value)
+            {
+                _AllCount = value;
+                OnEnemyCountChanged?.Invoke(_AllCount);
+            }
+        }
+    }
 
     private void Update()
     {

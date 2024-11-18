@@ -12,8 +12,6 @@ public class UnitController : MonoBehaviour
 
     public void Update()
     {
-        if (!GameManager.Instance.isRoundStart)
-            return;
 
         if (Input.GetMouseButtonDown(0))
         {
