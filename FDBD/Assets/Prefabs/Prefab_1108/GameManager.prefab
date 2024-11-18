@@ -127,6 +127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2978734378334650179}
   - component: {fileID: 8226434259577543789}
+  - component: {fileID: 1890595038780345581}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -167,6 +168,18 @@ MonoBehaviour:
   gameProcess_txt: {fileID: 0}
   Fade_bgi: {fileID: 0}
   Restart_btn: {fileID: 0}
+--- !u!114 &1890595038780345581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2900603484837043294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dd32edfc20c70444bbb465540191439, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4982183466907836779
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,9 +278,7 @@ MonoBehaviour:
   enemyController: {fileID: 8589003859465754142}
   unitController: {fileID: 7981123872850155434}
   level: 0
-  roundTimer: 0
-  isGameStart: 0
-  isRoundStart: 0
+  _roundTimer: 0
+  _isGameStart: 0
+  _isRoundStart: 0
   gameProcess: {fileID: 0}
-  FadeImg: {fileID: 0}
-  button: {fileID: 0}
