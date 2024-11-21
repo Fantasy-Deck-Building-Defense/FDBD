@@ -8,7 +8,9 @@ public class EnemyData : ScriptableObject
 {
     public eDefenseType[] defenseOrder;
 
-    public float speed;
+    public float spawnSpeed;
+    public float enemySpeed;
+
     public float armor;
     public float shield;
     public float health;
