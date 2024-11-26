@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
     [Header("Enemy spawn info")]
-    [SerializeField] private Transform EnemySpawnPos;
+    [SerializeField] public Transform EnemySpawnPos;
     [SerializeField] private float spawnSpeed;
     [SerializeField] private int spawnCount;
     [SerializeField] private int thisRound_count;
@@ -50,15 +50,42 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public void StartSpawnEnemies()
+    public void RemoveEnemy(GameObject enemy)
+    {
+        enemy.gameObject.transform.position = EnemySpawnPos.position;
+        enemy.gameObject.SetActive(false);
+        enemyList.Remove(enemy);
+    }
+
+    public void SetEnemyStop(bool isStop)
+    {
+        foreach (GameObject enemy in enemyList)
+        {
+            enemy.GetComponent<Enemy>().IsAgentStop(isStop);
+        }
+    }
+
+    public void InitRound()
     {
         all_count += 50;
         StartCoroutine(SpawnEnemies());
+        SetEnemyStop(false);
+    }
+
+    public void EndRound()
+    {
+        SetEnemyStop(true);
     }
 
     public void DestroyAllEnemies()
     {
+        foreach(GameObject enemy in enemyList)
+        {
+            enemy.transform.position = EnemySpawnPos.position;
+            enemy.gameObject.SetActive(false);
+        }
 
+        enemyList.Clear();
     }
 
     private IEnumerator SpawnEnemies()
@@ -88,5 +115,11 @@ public class EnemyController : MonoBehaviour
     public void EndGame()
     {
         thisRound_count = 0;
+        _AllCount = 0;
+    }
+
+    public void RestartGame()
+    {
+        DestroyAllEnemies();
     }
 }

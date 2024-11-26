@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
     private void InitRound()
     {
         isRoundStart = true;
-        enemyController.StartSpawnEnemies();
+        enemyController.InitRound();
 
         // ui
         gameProcess.text = "Round " + level + " begin";
@@ -120,6 +120,8 @@ public class GameManager : MonoBehaviour
     {
         isRoundStart = false;
         CheckRoundResult();
+
+        enemyController.EndRound();
     }
     private void CheckRoundResult()
     {
@@ -146,6 +148,7 @@ public class GameManager : MonoBehaviour
         isRoundStart = false;
         isGameStart = false;
         enemyController.EndGame();
+        unitController.EndGame();
     }
 
     private void SetNextRound()
@@ -162,6 +165,9 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+        isGameStart = true;
+
+        enemyController.RestartGame();
         InitGame();
     }
 }
