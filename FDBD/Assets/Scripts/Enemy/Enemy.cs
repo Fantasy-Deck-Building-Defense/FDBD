@@ -11,9 +11,9 @@ public class Enemy : MonoBehaviour
     public bool isDie => defenseOrder.Count == 0;
 
     [Header("Enemy Route")]
-    private NavMeshAgent agent;
     [SerializeField] private Transform[] destinations;
     [SerializeField] private int destinationIndex;
+    public NavMeshAgent agent;
 
     public void Start()
     {
@@ -37,7 +37,7 @@ public class Enemy : MonoBehaviour
     private void SetEnemyData()
     {
         EnemyData current = GameManager.Instance.enemyController.GetCurrentEnemyData();
-        speed = current.speed;
+        speed = current.enemySpeed;
 
         for (int i = 0; i < current.defenseOrder.Length; ++i)
         {
@@ -71,7 +71,6 @@ public class Enemy : MonoBehaviour
         destinationIndex = 0;
         agent.SetDestination(destinations[destinationIndex].position);
     }
-
     private void OnEnable()
     {
         if (agent != null)
@@ -80,9 +79,14 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void IsAgentStop(bool isStop)
+    {
+        agent.isStopped = isStop;
+    }
+
     private void Update()
     {
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        if (IsArriveDestination())
             MoveToNextPoint();
     }
 
@@ -102,6 +106,12 @@ public class Enemy : MonoBehaviour
 
         while (strength > 0)
         {
+            if (isDie)
+            {
+                Die();
+                break;
+            }
+
             // 우선 방어력 가져오기
             var defense = defenseOrder[0];
 
@@ -113,9 +123,6 @@ public class Enemy : MonoBehaviour
             if (defense.amount <= 0)
                 defenseOrder.RemoveAt(0);
         }
-
-        if (isDie)
-            Die();
     }
 
     private void Attacked()
@@ -123,9 +130,14 @@ public class Enemy : MonoBehaviour
         // attacked effect
     }
 
-    private void Die()
+    public void Die()
     {
-        GameManager.Instance.unitController.thisRound_killCount++;
-        this.gameObject.SetActive(false);
+        GameManager.Instance.enemyController.all_count--;
+        GameManager.Instance.enemyController.RemoveEnemy(gameObject);
+    }
+
+    private bool IsArriveDestination()
+    {
+        return !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance;
     }
 }
