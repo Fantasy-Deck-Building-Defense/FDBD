@@ -4,6 +4,8 @@ using Unity.VisualScripting;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEditor; // AssetDatabase 사용을 위한 추가 namespace
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,6 +23,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float _roundTimer;
     [SerializeField] private bool _isGameStart;
     [SerializeField] private bool _isRoundStart;
+
+    [Header("Unit")]
+    [SerializeField] private List<UnitData> units;
+
+    [Header("Shop")]
+    [SerializeField] private Shop shop;
 
     public float roundTimer
     {
@@ -70,7 +78,10 @@ public class GameManager : MonoBehaviour
     {
         if (Instance == null)
             Instance = this;
+
+        InitProgram();
     }
+
     private void Start()
     {
         InitGame();
@@ -92,6 +103,19 @@ public class GameManager : MonoBehaviour
             EndRound();
     }
 
+    private void InitProgram()
+    {
+        // unit setting
+        string[] guids = AssetDatabase.FindAssets("t:UnitData"); // UnitData라는 타입을 가지고 있는 asset을 모두 가져온다 
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            units.Add(AssetDatabase.LoadAssetAtPath<UnitData>(path));
+        }
+
+        shop = GameObject.Find("Shop").GetComponent<Shop>();
+    }
+
     private void InitGame()
     {
         // 처음 게임을 시작할 때
@@ -101,7 +125,18 @@ public class GameManager : MonoBehaviour
 
         // ui
         gameProcess.text = "Game Start";
+
+        // 상점 카드 세팅
+        Unit[] staticCards = new Unit[6];
+        Unit[] randomCards = new Unit[6];
+
+        //for(int i = 0; i < 6; i++)
+        //{
+        //    staticCards[0] = units
+        //}
+        //shop.SetShopCards();
     }
+
 
     private void InitRound()
     {
