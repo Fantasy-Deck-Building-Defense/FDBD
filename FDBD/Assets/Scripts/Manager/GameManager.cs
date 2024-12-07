@@ -7,6 +7,8 @@ using UnityEngine;
 using UnityEditor; // AssetDatabase 사용을 위한 추가 namespace
 using System;
 
+using Random = UnityEngine.Random;
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
@@ -25,7 +27,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool _isRoundStart;
 
     [Header("Unit")]
-    [SerializeField] private List<UnitData> units;
+    [SerializeField] private UnitData[] units;
 
     [Header("Shop")]
     [SerializeField] private Shop shop;
@@ -35,7 +37,7 @@ public class GameManager : MonoBehaviour
         get => _roundTimer;
         set
         {
-            if(_roundTimer != value)
+            if (_roundTimer != value)
             {
                 _roundTimer = value;
                 checkRoundTime?.Invoke(_roundTimer);
@@ -47,7 +49,7 @@ public class GameManager : MonoBehaviour
         get => _isGameStart;
         set
         {
-            if(_isGameStart != value)
+            if (_isGameStart != value)
             {
                 _isGameStart = value;
                 checkGameStart?.Invoke(_isGameStart);
@@ -107,10 +109,12 @@ public class GameManager : MonoBehaviour
     {
         // unit setting
         string[] guids = AssetDatabase.FindAssets("t:UnitData"); // UnitData라는 타입을 가지고 있는 asset을 모두 가져온다 
-        foreach (string guid in guids)
+        units = new UnitData[guids.Length];
+
+        for (int i = 0; i < guids.Length; i++)
         {
-            string path = AssetDatabase.GUIDToAssetPath(guid);
-            units.Add(AssetDatabase.LoadAssetAtPath<UnitData>(path));
+            string path = AssetDatabase.GUIDToAssetPath(guids[i]);
+            units[i] = AssetDatabase.LoadAssetAtPath<UnitData>(path);
         }
 
         shop = GameObject.Find("Shop").GetComponent<Shop>();
@@ -127,14 +131,18 @@ public class GameManager : MonoBehaviour
         gameProcess.text = "Game Start";
 
         // 상점 카드 세팅
-        Unit[] staticCards = new Unit[6];
-        Unit[] randomCards = new Unit[6];
+        UnitData[] staticCards = new UnitData[6];
+        UnitData[] randomCards = new UnitData[6];
 
-        //for(int i = 0; i < 6; i++)
-        //{
-        //    staticCards[0] = units
-        //}
-        //shop.SetShopCards();
+        for (int i = 0; i < 6; i++)
+        {
+            staticCards[i] = units[i];
+
+            int ranNum = Random.Range(0, units.Length);
+            randomCards[i] = units[ranNum];
+        }
+
+        shop.SetShopCards(staticCards, randomCards);
     }
 
 

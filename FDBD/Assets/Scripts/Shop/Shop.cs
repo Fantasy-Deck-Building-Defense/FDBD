@@ -9,6 +9,7 @@ public class Shop : MonoBehaviour
 
     public GameObject[] staticUnitCards = new GameObject[6];
     public GameObject[] randomUnitCards = new GameObject[6];
+    public GameObject handCardsBoard;
 
     private void Awake()
     {
@@ -28,10 +29,15 @@ public class Shop : MonoBehaviour
 
     public void SetShopCards(UnitData[] staticCards, UnitData[] randomCards)
     {
-        for(int i = 0; i < 6; i++)
+        for (int i = 0; i < 6; i++)
         {
             staticUnitCards[i].GetComponent<ShopCard>().SetCard(staticCards[i]);
             randomUnitCards[i].GetComponent<ShopCard>().SetCard(randomCards[i]);
         }
+    }
+
+    public void SetHandCards(List<UnitData> handCards)
+    {
+        handCardsBoard.GetComponent<HandCardBoard>().SetHandCards(handCards);
     }
 }
