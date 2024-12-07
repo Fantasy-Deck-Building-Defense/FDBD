@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour
             units[i] = AssetDatabase.LoadAssetAtPath<UnitData>(path);
         }
 
-        //shop = GameObject.Find("Shop").GetComponent<Shop>();
+        shop = GameObject.Find("Canvas_ScreenSpace").GetComponent<Shop>();
     }
 
     private void InitGame()
@@ -128,15 +128,15 @@ public class GameManager : MonoBehaviour
         UnitData[] staticCards = new UnitData[6];
         UnitData[] randomCards = new UnitData[6];
 
-        //for (int i = 0; i < 6; i++)
-        //{
-        //    staticCards[i] = units[i];
+        for (int i = 0; i < 6; i++)
+        {
+            staticCards[i] = units[i];
 
-        //    int ranNum = Random.Range(0, units.Length);
-        //    randomCards[i] = units[ranNum];
-        //}
+            int ranNum = Random.Range(0, units.Length);
+            randomCards[i] = units[ranNum];
+        }
 
-        //shop.SetShopCards(staticCards, randomCards);
+        shop.SetShopCards(staticCards, randomCards);
     }
 
 
