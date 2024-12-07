@@ -25,64 +25,14 @@ public class Unit : MonoBehaviour
         //RaycastHit hit;
     }
 
-    public void OnTriggerEnter(Collider other)
+    public bool EnemyAttack(Collider enemy)
     {
-        if (isMove) return;
+        if (attackCoolDown > 0 || isMove) return false;
 
-        if (other.CompareTag("Enemy"))
-        {
-            Enemys.Add(other);
-        }
-    }
+        enemy.GetComponent<Enemy>().Attack(unitData.attackData.attackType, unitData.attackData.strength);
+        attackCoolDown = unitData.attackData.speed;
+        if (!enemy.gameObject.activeSelf) return true;
 
-    public void OnTriggerExit(Collider other)
-    {
-        if (isMove) return;
-
-        if (other.CompareTag("Enemy"))
-        {
-            Enemys.Remove(other);
-        }
-    }
-
-    public void OnTriggerStay(Collider other)
-    {
-        if (isMove) return;
-
-        if (other.CompareTag("Enemy"))
-        {
-            Collider closestObject = null;
-            float closestDistance = Mathf.Infinity;
-
-            Vector3 currentPosition = transform.position;
-
-            foreach (Collider obj in Enemys)
-            {
-                float distance = Vector3.Distance(currentPosition, obj.transform.position);
-
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    closestObject = obj;
-                }
-            }
-
-            if (closestObject != null)
-            {
-                Vector3 direction = closestObject.transform.position - currentPosition;
-                direction.y = 0;
-
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
-
-                if (attackCoolDown <= 0)
-                {
-                    other.GetComponent<Enemy>().Attack(unitData.attackData.attackType, unitData.attackData.strength);
-                    attackCoolDown = unitData.attackData.speed;
-                }
-
-                if (!other.gameObject.activeSelf) Enemys.Remove(other);
-            }
-        }
+        return false;
     }
 }
