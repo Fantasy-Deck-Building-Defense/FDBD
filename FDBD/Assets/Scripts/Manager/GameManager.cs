@@ -73,9 +73,6 @@ public class GameManager : MonoBehaviour
     public event System.Action<bool> checkRoundStart;
     public event System.Action<float> checkRoundTime;
 
-    [Header("UI")]
-    [SerializeField] private TextMeshProUGUI gameProcess;
-
     private void Awake()
     {
         if (Instance == null)
@@ -117,7 +114,7 @@ public class GameManager : MonoBehaviour
             units[i] = AssetDatabase.LoadAssetAtPath<UnitData>(path);
         }
 
-        shop = GameObject.Find("Shop").GetComponent<Shop>();
+        //shop = GameObject.Find("Shop").GetComponent<Shop>();
     }
 
     private void InitGame()
@@ -127,22 +124,19 @@ public class GameManager : MonoBehaviour
         isGameStart = true;
         roundTimer = 60f;
 
-        // ui
-        gameProcess.text = "Game Start";
-
         // 상점 카드 세팅
         UnitData[] staticCards = new UnitData[6];
         UnitData[] randomCards = new UnitData[6];
 
-        for (int i = 0; i < 6; i++)
-        {
-            staticCards[i] = units[i];
+        //for (int i = 0; i < 6; i++)
+        //{
+        //    staticCards[i] = units[i];
 
-            int ranNum = Random.Range(0, units.Length);
-            randomCards[i] = units[ranNum];
-        }
+        //    int ranNum = Random.Range(0, units.Length);
+        //    randomCards[i] = units[ranNum];
+        //}
 
-        shop.SetShopCards(staticCards, randomCards);
+        //shop.SetShopCards(staticCards, randomCards);
     }
 
 
@@ -150,9 +144,6 @@ public class GameManager : MonoBehaviour
     {
         isRoundStart = true;
         enemyController.InitRound();
-
-        // ui
-        gameProcess.text = "Round " + level + " begin";
     }
 
     private void UpdateRound()
@@ -183,11 +174,6 @@ public class GameManager : MonoBehaviour
 
     private void EndGame(bool isWin)
     {
-        if (isWin)
-            gameProcess.text = "Game Win";
-        else
-            gameProcess.text = "Game lose";
-
         isRoundStart = false;
         isGameStart = false;
         enemyController.EndGame();
@@ -196,9 +182,6 @@ public class GameManager : MonoBehaviour
 
     private void SetNextRound()
     {
-        // clear ui
-        gameProcess.text = "Round " + level + " clear";
-
         enemyController.SetNextRound();
 
         // set next round
