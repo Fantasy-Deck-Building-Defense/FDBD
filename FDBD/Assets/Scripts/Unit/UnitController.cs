@@ -12,6 +12,8 @@ public class UnitController : MonoBehaviour
 
     public void Update()
     {
+        if (!GameManager.Instance.isGameStart)
+            return;
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -43,6 +45,16 @@ public class UnitController : MonoBehaviour
                     selectedUnit.GetComponent<NavMeshAgent>().SetDestination(hit.point);
                 }
             }
+        }
+    }
+
+    public void EndGame()
+    {
+        if (selectedUnit)
+        {
+            selectedUnit.GetComponent<Renderer>().material.color = Color.blue;
+            selectedUnit.GetComponent<NavMeshAgent>().avoidancePriority = 50;
+            selectedUnit = null;
         }
     }
 }

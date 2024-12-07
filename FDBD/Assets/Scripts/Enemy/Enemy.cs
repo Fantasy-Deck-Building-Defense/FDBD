@@ -71,7 +71,6 @@ public class Enemy : MonoBehaviour
         destinationIndex = 0;
         agent.SetDestination(destinations[destinationIndex].position);
     }
-
     private void OnEnable()
     {
         if (agent != null)
@@ -80,14 +79,14 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void IsAgentStop(bool isStop)
+    {
+        agent.isStopped = isStop;
+    }
+
     private void Update()
     {
-        if(!GameManager.Instance.isRoundStart || !GameManager.Instance.isGameStart)
-            agent.isStopped = true;
-        else
-            agent.isStopped = false;
-
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        if (IsArriveDestination())
             MoveToNextPoint();
     }
 
@@ -124,9 +123,6 @@ public class Enemy : MonoBehaviour
             if (defense.amount <= 0)
                 defenseOrder.RemoveAt(0);
         }
-
-        //if (isDie)
-        //    Die();
     }
 
     private void Attacked()
@@ -134,9 +130,14 @@ public class Enemy : MonoBehaviour
         // attacked effect
     }
 
-    private void Die()
+    public void Die()
     {
         GameManager.Instance.enemyController.all_count--;
-        this.gameObject.SetActive(false);
+        GameManager.Instance.enemyController.RemoveEnemy(gameObject);
+    }
+
+    private bool IsArriveDestination()
+    {
+        return !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance;
     }
 }

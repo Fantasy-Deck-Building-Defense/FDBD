@@ -34,14 +34,11 @@ public class UIManager : MonoBehaviour
 
     public void GameInit()
     {
-        Fade_bgi.gameObject.SetActive(true);
-        Restart_btn.gameObject.SetActive(true);
+        Fade_bgi.gameObject.SetActive(false);
+        Restart_btn.gameObject.SetActive(false);
     }
     public void RoundInit()
     {
-        Fade_bgi.gameObject.SetActive(false);
-        Restart_btn.gameObject.SetActive(false);
-
         timer_txt.gameObject.SetActive(true);
         emenyCount_txt.gameObject.SetActive(true);
         gameProcess_txt.gameObject.SetActive(true);
