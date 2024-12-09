@@ -6,7 +6,14 @@ using UnityEngine.UI;
 public class Shop : MonoBehaviour
 {
     public GameObject shop;
-    private List<Unit> unitCards = new List<Unit>();
+
+    public GameObject[] staticUnitCards = new GameObject[6];
+    public GameObject[] randomUnitCards = new GameObject[6];
+    public GameObject handCardsBoard;
+
+    private void Awake()
+    {
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -17,19 +24,20 @@ public class Shop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab)) shop.SetActive(!shop.activeSelf);
+    }
+
+    public void SetShopCards(UnitData[] staticCards, UnitData[] randomCards)
+    {
+        for (int i = 0; i < 6; i++)
         {
-            shop.SetActive(!shop.activeSelf);
+            staticUnitCards[i].GetComponent<ShopCard>().SetCard(staticCards[i]);
+            randomUnitCards[i].GetComponent<ShopCard>().SetCard(randomCards[i]);
         }
     }
 
-    public void SetShopCards(List<Unit> cards)
+    public void SetHandCards(List<UnitData> handCards)
     {
-        unitCards = cards;
-    }
-
-    public void SetShopCard(Unit card)
-    {
-        unitCards.Add(card);
+        handCardsBoard.GetComponent<HandCardBoard>().SetHandCards(handCards);
     }
 }
