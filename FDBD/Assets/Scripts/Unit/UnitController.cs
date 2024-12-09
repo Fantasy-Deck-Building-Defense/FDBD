@@ -5,7 +5,14 @@ using UnityEngine.AI;
 
 public class UnitController : MonoBehaviour
 {
-    [SerializeField] private GameObject selectedUnit;
+
+    [Header("Initial info")]
+    [SerializeField] private Unit _initialUnit;
+    [SerializeField] private int _initialCount;
+
+    [Header("Round info")]
+    [SerializeField] private GameObject _selectedUnit;
+
     public void Awake()
     {
     }
@@ -20,41 +27,54 @@ public class UnitController : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (selectedUnit == null)
+            if (_selectedUnit == null)
             {
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity) && hit.transform.CompareTag("Unit"))
                 {
-                    selectedUnit = hit.collider.gameObject;
-                    selectedUnit.GetComponent<Renderer>().material.color = Color.red;
-                    selectedUnit.GetComponent<NavMeshAgent>().avoidancePriority = 80;
+                    _selectedUnit = hit.collider.gameObject;
+                    _selectedUnit.GetComponent<Renderer>().material.color = Color.red;
+                    _selectedUnit.GetComponent<NavMeshAgent>().avoidancePriority = 80;
                 }
             }
             else
             {
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity) && hit.transform.CompareTag("Unit"))
                 {
-                    selectedUnit.GetComponent<Renderer>().material.color = Color.blue;
-                    selectedUnit.GetComponent<NavMeshAgent>().avoidancePriority = 50;
+                    _selectedUnit.GetComponent<Renderer>().material.color = Color.blue;
+                    _selectedUnit.GetComponent<NavMeshAgent>().avoidancePriority = 50;
 
-                    selectedUnit = hit.collider.gameObject;
-                    selectedUnit.GetComponent<NavMeshAgent>().avoidancePriority = 80;
-                    selectedUnit.GetComponent<Renderer>().material.color = Color.red;
+                    _selectedUnit = hit.collider.gameObject;
+                    _selectedUnit.GetComponent<NavMeshAgent>().avoidancePriority = 80;
+                    _selectedUnit.GetComponent<Renderer>().material.color = Color.red;
                 }
                 else if (Physics.Raycast(ray, out hit, Mathf.Infinity))
                 {
-                    selectedUnit.GetComponent<NavMeshAgent>().SetDestination(hit.point);
+                    _selectedUnit.GetComponent<NavMeshAgent>().SetDestination(hit.point);
                 }
             }
         }
     }
+    
+    public void SpawnInitialUnits()
+    {
+        for(int i = 0; i < _initialCount; ++i)
+        {
+
+        }
+    }
+
+    public void SpawnUnit()
+    {
+
+    }
 
     public void EndGame()
     {
-        if (selectedUnit)
+        if (_selectedUnit)
         {
-            selectedUnit.GetComponent<Renderer>().material.color = Color.blue;
-            selectedUnit.GetComponent<NavMeshAgent>().avoidancePriority = 50;
-            selectedUnit = null;
+            _selectedUnit.GetComponent<Renderer>().material.color = Color.blue;
+            _selectedUnit.GetComponent<NavMeshAgent>().avoidancePriority = 50;
+            _selectedUnit = null;
         }
     }
 }

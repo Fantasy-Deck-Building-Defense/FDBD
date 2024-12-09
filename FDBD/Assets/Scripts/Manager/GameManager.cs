@@ -19,9 +19,11 @@ public class GameManager : MonoBehaviour
     public EnemyController enemyController;
     public UnitController unitController;
 
+    [Header("Player info")]
+    public int level;
+    public List<Unit> playerUnits;
 
     [Header("Round info")]
-    public int level;
     [SerializeField] private float _roundTimer;
     [SerializeField] private bool _isGameStart;
     [SerializeField] private bool _isRoundStart;
